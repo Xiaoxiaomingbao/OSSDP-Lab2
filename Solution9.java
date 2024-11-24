@@ -29,7 +29,7 @@ import java.util.List;
  * 提示：
  *
  * 1 <= n <= 2000
- * 0 <= dislikes.length <= 104
+ * 0 <= dislikes.length <= 10^4
  * dislikes[i].length == 2
  * 1 <= dislikes[i][j] <= n
  * ai < bi
@@ -42,12 +42,13 @@ class Solution9 {
         int[] fa = new int[n + 1];
         Arrays.fill(fa, -1);
         List<Integer>[] g = new List[n + 1];
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i <= n; ++i) {
             g[i] = new ArrayList<Integer>();
         }
-        for (int[] p : dislikes)
+        for (int[] p : dislikes) {
             g[p[0]].add(p[1]);
             g[p[1]].add(p[0]);
+        }
         for (int i = 1; i <= n; ++i) {
             for (int j = 0; j < g[i].size(); ++j) {
                 unit(g[i].get(0), g[i].get(j), fa);
@@ -65,7 +66,7 @@ class Solution9 {
         if (x == y) {
             return ;
         }
-        if (fa[x] <= fa[y]) {
+        if (fa[x] > fa[y]) {
             int temp = x;
             x = y;
             y = temp;
@@ -81,6 +82,6 @@ class Solution9 {
     }
 
     public int findFa(int x, int[] fa) {
-        return fa[x] > 0 ? x : (fa[x] = findFa(fa[x], fa));
+        return fa[x] < 0 ? x : (fa[x] = findFa(fa[x], fa));
     }
 }
